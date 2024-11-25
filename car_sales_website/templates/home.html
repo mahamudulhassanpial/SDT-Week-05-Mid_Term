@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="d-flex flex-wrap px-5 pt-3 align-items-center gap-2">
+  <div class="col-5 mx-2">
+    <h1>Welcome to Big BOY TOYS</h1>
+    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Debitis minima omnis quasi sequi delectus voluptatibus, dignissimos enim saepe deleniti ratione necessitatibus eligendi aliquam, doloremque aspernatur hic illum nisi sed rerum unde suscipit. Ut enim eaque eos magni nihil doloribus quos nesciunt tenetur. Eaque impedit distinctio explicabo sed itaque, perspiciatis dolores? Repellendus amet saepe, consectetur sunt voluptatibus eius alias dolorem quo in vitae inventore asperiores expedita animi, aperiam nulla autem consequatur, quisquam minus perspiciatis vero excepturi earum corrupti? Odio doloremque magni temporibus fugit adipisci aut, veniam repellendus asperiores cum omnis accusamus sequi inventore atque exercitationem dolores eum assumenda perferendis dolore. Aliquid?</p>
+  </div>
+  <div class="col-5 size">
+    <img src="{% static 'header1.avif' %}">
+  </div>
+</div>
+
+  <div class="d-flex flex-wrap px-4">
+    <div class="d-flex flex-wrap col-12 bg-white  gap-5">
+      <h5 class="col-2 p-3 mt-1"><b>Car Brands : </b></h5><hr>
+      {% for cat in category %}
+      <div class="form-check d-flex">
+        {% comment %} <input class="form-check-input" type="radio" name="category" id="{{cat.id}}"> {% endcomment %}
+        <label class="form-check-label" for="{{cat.id}}">
+          <a href="{% url 'category_wise_post' cat.slug %}" class="text-decoration-none text-dark btn btn-info m-3">{{cat.name}}</a>
+        </label>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="col-10 p-3">
+      <h4 class="p-1 mt-2">Total Car found : {{data | length}}</h4>
+      <div class="d-flex flex-wrap pt-5">
+        {% for post in data %}
+        <div class="col-sm-4">
+          <div class="card m-2">
+            <img src="{{post.image.url}}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title"><a href="{% url 'detail_Post' post.id %}" class="text-decoration-none text-dark"><b>{{post.title}}</b></a></h5>
+              <p class="card-text">{{post.content |truncatewords:10}}</p>
+              <p>quantity : {{post.quantity}} </p>
+              <p>price : {{post.price}} </p>
+              <p>Brand : {% for cat in post.category.all %}
+                <button class="btn btn-primary btn-sm m-2" disabled>{{cat.name}}</button>
+                {% endfor %}
+              </p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

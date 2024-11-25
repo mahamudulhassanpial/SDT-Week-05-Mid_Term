@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+  <div class="m-2">
+      <h2><b>My Profile</b></h2>
+      <a href="{% url 'edit_profile' %}" class="btn btn-primary">Edit Profile</a>
+  </div>
+  <hr>
+  <h3 class="m-2"><b>My Posts</b></h3>
+  <div class="d-flex flex-wrap">
+      {% for post in data %}
+      <div class="card m-2" style="width: 18rem;">
+          <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">
+          <div class="card-body">
+              <h5 class="card-title">{{ post.title }}</h5>
+              <p class="card-text">{{ post.content }}</p>
+              <a href="{% url 'edit_Post' post.id %}" class="btn btn-warning">Edit</a>
+              <a href="{% url 'delete_Post' post.id %}" class="btn btn-danger">Delete</a>
+          </div>
+      </div>
+      {% endfor %}
+  </div>
+  <hr>
+  <h3 class="mx-3 p-2"><b>My Orders</b></h3>
+  <div>
+      {% if orders %}
+      <ul>
+          {% for order in orders %}
+          <li><h5><b>{{ order.post.title }}</b> - Ordered on {{ order.order_date }}</h5></li>
+          {% endfor %}
+      </ul>
+      {% else %}
+      <p>You haven't purchased any cars yet.</p>
+      {% endif %}
+  </div>
+
+  
+
+{% endblock %}
